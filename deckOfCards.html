@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Deck of Cards</title>
+</head>
+<body>
+<script>
+    class Card {
+        constructor(_suit, _val){
+            this.suit = _suit;
+            this.val = _val;
+            
+            switch(_val){
+                case 11:
+                    this.strVal= "Jack";
+                    break;
+                case 12:
+                    this.strVal = "Queen";
+                    break;
+                case 13:
+                    this.strVal = "King";
+                    break;
+                case 1:
+                    this.strVal = "Ace";
+                    break;
+                default:
+                    this.strVal = _val.toString();
+            }
+        }
+
+        showCard(){
+            console.log(`${this.strVal} of ${this.suit}, Points: ${this.val}`);
+        }
+    }
+
+    class Deck{
+        constructor(){
+            this.deck = [];
+            this.reset();
+        }
+
+        reset(){
+            this.deck =[];
+            var suits = ["Clubs", "Spades", "Hearts", "Diamonds"];
+
+            for (var i = 0; i < suits.length; i++) {
+                var j = 1;
+                while (j < 14){
+                    var card = new Card(suits[i], j);
+                    this.deck.push(card);
+                    j++;
+                }
+            }
+        }
+
+        shuffle(){
+            for(var i = 0; i < this.deck.length; i++){
+                var idx1 = Math.floor(Math.random() * this.deck.length);
+                var idx2 = Math.floor(Math.random() * this.deck.length);
+                [this.deck[idx1], this.deck[idx2]] = [this.deck[idx2], this.deck[idx1]];
+            }
+            return this;
+        }
+
+        deal() {
+            var random = Math.floor(Math.random() * this.deck.length);
+            var card = this.deck[random];
+
+            this.deck.splice(random, 1);
+            return card;
+        }
+    }
+
+    class Player{
+        constructor(_name){
+            this.name = _name;
+            this.hand = [];
+
+        }
+
+        draw(deck){
+            if (deck instanceof Deck){
+            
+                var card = deck.deal();
+                this.hand.push(card);
+                return this;
+            }
+            else{
+                console.log("Incorrect input, please report to your manager's office for termination.");
+            }
+        }
+        discard(idx){
+            this.hand.splice(idx,1);
+            return this;
+        }
+    }
+
+    var deck1 = new Deck();
+    deck1.shuffle();
+    console.log(deck1);
+
+    var hand = deck1.deal();
+    console.log(hand);
+    var nibbles = new Player("Mr Nibbles");
+    for(var i = 0; i < 5; i++){
+        nibbles.draw(ja);
+    }
+    console.log(nibbles.hand);
+    nibbles.discard(3);
+</script>
+    
+</body>
+</html>
